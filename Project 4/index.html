@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla JS Calculator</title>
+    <style>
+        /* CSS Styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            background-color: #444;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .calculator-display {
+            background-color: #222;
+            color: #fff;
+            font-size: 3em;
+            text-align: right;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .calculator-keys {
+            display: grid;
+            /* Grid layout for 4 columns */
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+        }
+
+        button {
+            padding: 20px 0;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.15s;
+            color: #333;
+            background-color: #e0e0e0;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .operator {
+            background-color: #ff9500;
+            color: white;
+        }
+
+        .clear {
+            background-color: #d3d3d3;
+            grid-column: span 2;
+            /* Make the clear button span two columns */
+        }
+
+        .equal-sign {
+            background-color: #4CAF50;
+            color: white;
+            grid-column: span 2;
+            /* Make the equals button span two columns */
+        }
+
+        .decimal {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+        <div class="calculator-display" id="display">0</div>
+
+        <div class="calculator-keys">
+            <button class="clear">AC</button>
+            <button class="operator" data-action="percentage">%</button>
+            <button class="operator" data-action="divide">/</button>
+
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="operator" data-action="multiply">x</button>
+
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="operator" data-action="subtract">-</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="operator" data-action="add">+</button>
+
+            <button data-action="decimal" class="decimal">.</button>
+            <button>0</button>
+            <button class="equal-sign" data-action="calculate">=</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Logic
+        const display = document.getElementById('display');
+        const keys = document.querySelector('.calculator-keys');
+
+        let displayValue = '0';
+        let firstOperand = null;
+        let operator = null;
+        let waitingForSecondOperand = false;
+
+        function updateDisplay() {
+            display.textContent = displayValue;
+        }
+
+        function inputDigit(digit) {
+            if (waitingForSecondOperand === true) {
+                displayValue = digit;
+                waitingForSecondOperand = false;
+            } else {
+                // Prevent leading zero if display is '0'
+                displayValue = displayValue === '0' ? digit : displayValue + digit;
+            }
+            updateDisplay();
+        }
+
+        function inputDecimal(dot) {
+            // Do nothing if a decimal already exists
+            if (displayValue.includes(dot)) {
+                return;
+            }
+
+            // Append the decimal point
+            displayValue += dot;
+            updateDisplay();
+        }
+
+        function handleOperator(nextOperator) {
+            const inputValue = parseFloat(displayValue);
+
+            // If an operator is already set, and we're not waiting for a second operand, calculate the current expression
+            if (operator && waitingForSecondOperand) {
+                operator = nextOperator; // Overwrite the operator
+                return;
+            }
+
+            // Store the first operand if it's the start of the calculation
+            if (firstOperand === null) {
+                firstOperand = inputValue;
+            } else if (operator) {
+                const result = calculate(firstOperand, inputValue, operator);
+
+                // Handle division by zero
+                if (result === 'Error') {
+                    displayValue = 'Error';
+                    updateDisplay();
+                    firstOperand = null;
+                    operator = null;
+                    return;
+                }
+
+                displayValue = String(result);
+                firstOperand = result;
+            }
+
+            waitingForSecondOperand = true;
+            operator = nextOperator;
+            updateDisplay();
+        }
+
+        function calculate(first, second, op) {
+            switch (op) {
+                case '+': return first + second;
+                case '-': return first - second;
+                case 'x': return first * second;
+                case '/':
+                    return second === 0 ? 'Error' : first / second; // Division by zero check
+                case '%': return first * (second / 100);
+                default: return second;
+            }
+        }
+
+        function resetCalculator() {
+            displayValue = '0';
+            firstOperand = null;
+            operator = null;
+            waitingForSecondOperand = false;
+            updateDisplay();
+        }
+
+        // Main Event Listener
+        keys.addEventListener('click', (event) => {
+            const { target } = event;
+            if (!target.matches('button')) {
+                return;
+            }
+
+            if (target.classList.contains('operator')) {
+                handleOperator(target.textContent === 'x' ? 'x' : target.textContent);
+                return;
+            }
+
+            if (target.classList.contains('decimal')) {
+                inputDecimal(target.textContent);
+                return;
+            }
+
+            if (target.classList.contains('clear')) {
+                resetCalculator();
+                return;
+            }
+
+            if (target.classList.contains('equal-sign')) {
+                // Force a calculation if an operator and first operand exist
+                if (operator && firstOperand !== null) {
+                    handleOperator('=');
+                }
+                return;
+            }
+
+            // Handle number input
+            inputDigit(target.textContent);
+        });
+
+        // Initialize display
+        updateDisplay();
+    </script>
+
+</body>
+
+</html>

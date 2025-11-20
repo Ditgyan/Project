@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Blog Template</title>
+    <!-- Load Tailwind CSS for utility-first, optimized styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for high-contrast typography and readability */
+        .content-prose {
+            line-height: 1.75;
+        }
+
+        /* Define a system font stack for maximum performance and readability */
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            color: #1f2937;
+            /* Dark text for high contrast */
+            background-color: #f9fafb;
+            /* Near-white background */
+        }
+
+        /* Responsive image aspect ratio fix */
+        .post-image {
+            object-fit: cover;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-10 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#"
+                class="text-2xl font-black tracking-tighter text-gray-900 hover:text-indigo-600 transition duration-150">
+                The Minimalist
+            </a>
+            <nav class="space-x-4">
+                <a href="#"
+                    class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition duration-150">Home</a>
+                <a href="#"
+                    class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition duration-150">About</a>
+                <a href="#"
+                    class="text-sm font-medium text-gray-700 hover:text-indigo-600 transition duration-150">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Grid Container -->
+    <main class="max-w-7xl mx-auto mt-10 p-4 sm:p-6 lg:p-8">
+
+        <!-- CSS Grid Layout: 3/4 Main Content (col-span-3), 1/4 Sidebar (col-span-1) -->
+        <!-- Collapses to a single column on medium screens and below -->
+        <div class="grid md:grid-cols-4 gap-12">
+
+            <!-- 1. Main Blog Post Content Area (3/4 width on desktop) -->
+            <article class="md:col-span-3 bg-white p-6 sm:p-8 lg:p-10 rounded-xl shadow-lg border border-gray-100">
+
+                <p class="text-sm font-medium text-indigo-600 mb-2">Technology & Performance / July 24, 2025</p>
+                <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 mb-6">
+                    Prioritizing Content: The Philosophy of Minimalist Web Design
+                </h1>
+                <p class="text-lg text-gray-600 mb-8">
+                    A deep dive into how simplicity and focused design leads to faster performance and higher reader
+                    engagement.
+                </p>
+
+                <!-- Responsive Image Handling Demonstration -->
+                <!-- Utilizes <picture> for optimal performance (Key Objective) -->
+                <figure class="mb-10 rounded-lg overflow-hidden shadow-xl">
+                    <picture>
+                        <!-- Source for large screens (desktop) -->
+                        <source srcset="https://placehold.co/1200x675/1e3a8a/ffffff?text=Desktop+Hero"
+                            media="(min-width: 1024px)">
+                        <!-- Source for medium screens (tablet) -->
+                        <source srcset="https://placehold.co/800x450/374151/ffffff?text=Tablet+Hero"
+                            media="(min-width: 640px)">
+                        <!-- Default Image (mobile size) with lazy loading for performance -->
+                        <img src="https://placehold.co/600x337/4b5563/ffffff?text=Mobile+Hero"
+                            alt="Minimalist design workspace with high contrast elements" class="post-image"
+                            loading="lazy">
+                    </picture>
+                    <figcaption class="text-center text-sm text-gray-500 py-3 bg-gray-50 border-t border-gray-200">
+                        Figure 1: Focusing on core content improves user flow.
+                    </figcaption>
+                </figure>
+
+                <!-- Body Text Section: High Contrast Typography (Key Objective) -->
+                <div class="content-prose text-gray-800 text-lg space-y-8">
+                    <p>
+                        Minimalism in web design is not merely an aesthetic choice; it is a performance strategy. By
+                        stripping away unnecessary elements—decorative borders, excessive widgets, and heavy scripts—we
+                        allow the core content to load instantly and take center stage. This streamlined approach
+                        directly addresses two critical factors in modern web consumption: **speed and readability.**
+                        Our goal is to make the experience of reading a post effortless.
+                    </p>
+
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 pt-4">
+                        The Power of Contrast and Grid
+                    </h2>
+
+                    <p>
+                        High-contrast typography ensures that every character is clearly defined against its background.
+                        In this template, we utilize a system font stack to prioritize load speed, paired with generous
+                        line-height and ample letter spacing. This approach, combined with the structural efficiency of
+                        CSS Grid, creates an adaptive flow. On desktop, the two-column grid clearly separates context
+                        (sidebar) from content (main article).
+                    </p>
+
+                    <p>
+                        When the viewport shrinks, the layout intelligently collapses to a single column. The sidebar
+                        gracefully falls below the main content, maintaining document flow and ensuring that the reader
+                        is never faced with horizontal scrolling or awkwardly resized elements. This smooth adaptation
+                        is the defining feature of truly responsive design, and it’s achieved with just a few lines of
+                        responsive grid code.
+                    </p>
+
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 pt-4">
+                        Optimizing Images for Mobile
+                    </h2>
+
+                    <p>
+                        Images are often the largest bottleneck for performance. The use of the `<picture>` element and
+                            `srcset`—as demonstrated above—allows the browser to select the most appropriate image size
+                            based on the user's screen resolution and bandwidth. This means a mobile user only downloads
+                            a small, optimized file, saving data and drastically cutting down on load time, cementing
+                            our commitment to a fast, minimalist experience.
+                    </p>
+                </div>
+            </article>
+
+            <!-- 2. Sidebar (1/4 width on desktop) -->
+            <aside class="md:col-span-1 space-y-8">
+
+                <!-- Author Bio Widget -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 border-b pb-2">About the Author</h3>
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://placehold.co/60x60/818cf8/ffffff?text=A" alt="Author Avatar"
+                            class="w-12 h-12 rounded-full">
+                        <div>
+                            <p class="font-medium text-gray-900">Alex J. Performance</p>
+                            <p class="text-sm text-gray-500">UX/Performance Specialist</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        Writing about the intersection of elegant design, clean code, and blazing-fast web performance.
+                        Less is always more.
+                    </p>
+                </div>
+
+                <!-- Categories Widget -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3 border-b pb-2">Categories</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-indigo-600 hover:underline">Design Philosophy (4)</a></li>
+                        <li><a href="#" class="text-indigo-600 hover:underline">CSS Grid & Flexbox (7)</a></li>
+                        <li><a href="#" class="text-indigo-600 hover:underline">Web Performance (12)</a></li>
+                        <li><a href="#" class="text-indigo-600 hover:underline">Typography Rules (5)</a></li>
+                    </ul>
+                </div>
+
+            </aside>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 border-t border-gray-200 bg-gray-50 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+            <p>&copy; 2025 The Minimalist Blog. All rights reserved. | Simple. Fast. Content-First.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
